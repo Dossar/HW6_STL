@@ -9,7 +9,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <stack> // C++ library for stack
+#include <stack> // C++ library for stack STL
+#include <map> // C++ library for map STL
 #include <vector> // C++ library for vectors
 
 using namespace std;
@@ -25,6 +26,7 @@ class Matrix
                 friend ostream& operator <<(ostream& out, const Matrix& Mat);
         private:
                 int data[2][2];
+                
     
 };
 // Matrix Constructor.
@@ -95,6 +97,55 @@ void stackTest(stackVar& A, stackVar& B) {
     
 }
 
+/*********************
+ GENERALIZED MAP STL FUNCTION
+ mapVar is used as a general type here. The type is dependent on what's passed to the function
+ *********************/
+template<class mapVar>
+void mapTest(mapVar& A, mapVar& B) {
+    
+    cout << "========== MAP STL TESTING ==========\n" << endl;
+    
+    cout << "Creating first map with two key-value pairs." << endl;
+    map<const char*, mapVar> map1;
+    map1["one"] = A;
+    map1["two"] = B;
+    cout << "There are " << map1.count("one") << " keys \"one\" with value:\n" << map1["one"] << endl;
+    cout << "There are " << map1.count("two") << " keys \"two\" with value:\n" << map1["two"] << endl;
+    
+    cout << "\nMaking a second map as a copy of the first map." << endl;
+    map<const char*, mapVar> map2(map1);
+    
+    if( map1 == map2 )
+        cout << "Both maps are the same." << endl;
+    
+    // This is for reinitializing the maps
+    map<const char*, mapVar> tempMap = map2;
+    
+    // Erase the same key in both maps.
+    cout << "Removing the key \"one\" that had the following element in both maps:\n" << map1["one"] << endl;
+    map1.erase( map1.begin() );
+    map2.erase( "one" );
+    
+    if( map1 == map2 )
+        cout << "\nElement removed in both maps, both maps are the same.\n" << endl;
+    
+    
+    tempMap.swap( map1 );
+    if( tempMap == map2 )
+        cout << "Swapped first map with temporary map. Temporary map == second map now." << endl;
+    
+    cout << "Map element \"two\" of first map is:\n" << map1["two"] << "\n" << endl;
+    
+    cout << "The size of the first map is " << map1.size() << "." << endl;
+    
+    map2.clear();
+    if( map2.empty() )
+        cout << "Emptied the second map.\n" << endl;
+    
+    
+}
+
 
 /*
  * 
@@ -108,10 +159,16 @@ int main() {
     int int1 = 2, int2 = 3;
 
     // Stack STL testing
-    stackTest(Mat1,Mat2);
-    stackTest(str1,str2);
-    stackTest(char1,char2);
-    stackTest(int1,int2);
+//    stackTest(Mat1,Mat2);
+//    stackTest(str1,str2);
+//    stackTest(char1,char2);
+//    stackTest(int1,int2);
+    
+    // Map STL testing
+//    mapTest(Mat1,Mat2);
+    mapTest(str1,str2);
+    mapTest(char1,char2);
+    mapTest(int1,int2);
     
 
                     
