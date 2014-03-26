@@ -24,8 +24,10 @@ class Matrix
                 Matrix(int d = 0); // Default constructor
                 ~Matrix(); // Destructor
                 friend ostream& operator <<(ostream& out, const Matrix& Mat);
+                friend bool operator ==(const Matrix& Mat1, const Matrix& Mat2);
         private:
-                int data[2][2];
+                const static int n=2; // To reduce clutter we just have 2x2 matrices.
+                int data[n][n];
                 
     
 };
@@ -33,8 +35,8 @@ class Matrix
 Matrix::Matrix(int d)
 {
     int i, j;
-    for (i = 0; i < 2 ; i++) {
-        for (j = 0; j < 2 ; j++)
+    for (i = 0; i < n ; i++) {
+        for (j = 0; j < n ; j++)
             data[i][j] = d;
     }
 }
@@ -45,11 +47,25 @@ Matrix::~Matrix()
 // Overloaded output operator
 ostream& operator <<(ostream& out, const Matrix& Mat){
     int i, j;
-    for (i = 0; i < 2 ; i++) {
-        for (j = 0; j < 2 ; j++)
+    for (i = 0; i < Mat.n ; i++) {
+        for (j = 0; j < Mat.n ; j++)
             cout << Mat.data[i][j] << " ";
         cout << endl; // Newline for next row
     }
+}
+// Overloaded equality operator
+bool operator ==(const Matrix& Mat1, const Matrix& Mat2){
+    
+        int i, j;
+        for (i = 0; i < Mat1.n ; i++) {
+            for (j = 0; j < Mat1.n ; j++) {
+                if (Mat1.data[i][j] != Mat2.data[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    
 }
 /*
  * END DEFINING CLASS MATRIX.
@@ -74,7 +90,8 @@ void stackTest(stackVar& A, stackVar& B) {
     
     // Using copy constructor from stack STL.
     stack<stackVar> stack2(stack1);
-    cout << "\nMade a copy of the stack.\n" << endl;
+    if( stack1 == stack2 )
+        cout << "\nMade a copy of the stack.\n" << endl;
     
     // Pop top element of first stack, output what was popped.
     stackVar top1 = stack1.top();
@@ -159,13 +176,13 @@ int main() {
     int int1 = 2, int2 = 3;
 
     // Stack STL testing
-//    stackTest(Mat1,Mat2);
-//    stackTest(str1,str2);
-//    stackTest(char1,char2);
-//    stackTest(int1,int2);
+    stackTest(Mat1,Mat2);
+    stackTest(str1,str2);
+    stackTest(char1,char2);
+    stackTest(int1,int2);
     
     // Map STL testing
-//    mapTest(Mat1,Mat2);
+    mapTest(Mat1,Mat2);
     mapTest(str1,str2);
     mapTest(char1,char2);
     mapTest(int1,int2);
