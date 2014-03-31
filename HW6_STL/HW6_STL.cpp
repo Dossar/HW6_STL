@@ -2,7 +2,7 @@
  * File:   HW6_STL.cpp
  * Author: Roy Van Liew and Saqib Zahid
  *
- * Last Modified on March 29, 2014, 1:09 PM
+ * Last Modified on March 31, 2014, 10:49 AM
  */
 
 #include <iostream>
@@ -12,6 +12,7 @@
 #include <stack> // C++ library for stack STL
 #include <map> // C++ library for map STL
 #include <queue> // C++ library for queue and priority queue STLs
+#include <list> // C++ library for list
 #include <vector> // C++ library for vectors
 
 using namespace std;
@@ -219,6 +220,87 @@ void pqTest(pqVar& A, pqVar& B, pqVar& C) {
     
 }
 
+/*********************
+GENERALIZED QUEUE STL FUNCTION
+qVar is used as a general type here. The type is dependent on what's passed to the function
+*********************/
+template<class qVar>
+void qTest(qVar& A, qVar& B, qVar& C) {
+
+	cout << "========== QUEUE STL TESTING ==========\n" << endl;
+
+	// Create queue with 3 elements. 
+	queue<qVar> q1;
+	q1.push(A);
+	q1.push(B);
+	q1.push(C);
+	cout << "Front Element of the Queue:\n" << q1.front() << endl;
+
+	// Make Queue 2 a copy of Queue 1
+	cout << "Making a copy of Queue 1 into Queue 2." << endl;
+	queue<qVar> q2(q1);
+	if (q1.size() == q2.size())
+		cout << "Both Queue 1 and Queue 2 have " << q1.size() << " elements." << endl;
+
+	// Pop and display the elements 
+	int i;
+	for (i = 0; i < 3; i++) {
+		cout << "Popping element from front of Queue 1:\n" << q1.front() << endl;
+		q1.pop();
+	}
+
+	if (q1.empty() && !q2.empty())
+		cout << "Queue 1 is now empty, but Queue 2 is not." << endl;
+
+	q1 = q2; // Assign queue q1 to queue q2's contents
+	if (!q1.empty())
+		cout << "Reassigned Queue 1 to Queue 2's contents. It is no longer empty.\n" << endl;
+
+}
+
+/*********************
+GENERALIZED LIST STL FUNCTION
+listVar is used as a general type here. The type is dependent on what's passed to the function
+*********************/
+template<class listVar>
+void listTest(listVar& A, listVar& B, listVar& C) {
+
+	cout << "========== LIST STL TESTING ==========\n" << endl;
+
+	// Put in three elements.
+	list<listVar> list1;
+	list1.push_front(B); // B will wind up being in the middle here.
+	list1.push_back(C); // Put C in the back.
+	list1.insert( list1.begin() , A ); // Put A in the front.
+        cout << "Created first list. First and Last Elements (Respectively):" << endl;
+        cout << list1.front() << endl;
+        cout << list1.back() << endl;
+        
+        list1.erase( list1.begin() ); // Remove first element.
+        cout << "Removed first element. Now the first element is:\n" << list1.front() << endl;
+        
+        list<listVar> list2(list1); // Create a copy
+        list<listVar> tempList = list1;
+        if( list1 == list2 )
+            cout << "Created a copy of the first list." << endl;
+        
+        // Both of these do the same thing (clear the entire list)
+        list1.clear();
+        list2.erase( list2.begin(), list2.end() );
+        if( list1.empty() && list2.empty() )
+            cout << "Cleared both lists. They are now empty." << endl;
+        
+        list1 = tempList;
+        
+        int i;
+        for( i = 0 ; i < list1.size()+1 ; i++ ){
+            list1.pop_front();
+        }
+        if( list1.empty() )
+            cout << "Popped everything in first list.\n" << endl;
+
+
+}
 
 /*
  * 
@@ -234,23 +316,32 @@ int main() {
     // Stack STL testing
     stackTest(Mat1,Mat2,Mat3);
     stackTest(str1,str2,str3);
-    stackTest(char1,char2,char3);
+    // stackTest(char1,char2,char3);
     stackTest(int1,int2,int3);
     
     // Map STL testing
     mapTest(Mat1,Mat2,Mat3);
     mapTest(str1,str2,str3);
-    mapTest(char1,char2,char3);
+    // mapTest(char1,char2,char3);
     mapTest(int1,int2,int3);
     
     // Priority Queue STL testing
     pqTest(Mat1,Mat2,Mat3);
     pqTest(str1,str2,str3);
-    pqTest(char1,char2,char3);
-    pqTest(int1,int2,int3);    
+    // pqTest(char1,char2,char3);
+    pqTest(int1,int2,int3);
 
-                    
+    // Queue STL testing
+    qTest(Mat1, Mat2, Mat3);
+    qTest(str1, str2, str3);
+    // qTest(char1, char2, char3);
+    qTest(int1, int2, int3);
 
+    // List STL testing
+    listTest(Mat1, Mat2, Mat3);
+    listTest(str1, str2, str3);
+    // listTest(char1, char2, char3);
+    listTest(int1, int2, int3);                  
 
   return 0;
   
